@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import { initializeDB } from "./data/database.js";
 //import them routes
 
 const app = express();
@@ -11,5 +12,6 @@ app.use(express.json());
 //add routers
 
 app.listen(PORT, () => {
+  initializeDB();
   console.log(`Backend system is running on port ${PORT}`);
 });
