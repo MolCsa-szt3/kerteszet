@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { initializeDB } from "./data/database.js";
-//import them routes
+import plantsRouter from "./routers/plants.js";
 
 const app = express();
 const PORT = 3000;
@@ -9,6 +9,7 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
+app.use("/plants", plantsRouter);
 //add routers
 
 app.listen(PORT, () => {
