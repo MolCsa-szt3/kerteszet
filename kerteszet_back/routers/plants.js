@@ -52,4 +52,19 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+router.delete("/:id", async (req, res) => {
+  try {
+    const foundById = dbGet("SELECT * FROM plants WHERE id=?", [req.params.id]);
+    if (!foundById) {
+      return res.status(404).json({ message: "Plant not found!" });
+    }
+
+    dbRun("DELETE FROM plant WHERE id=?", [req.params.id]);
+
+    return res.status(201).json({ message: "Plant Successfully Deleted" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+});
 export default router;
