@@ -3,8 +3,6 @@ import sqlite from "sqlite3";
 const db = new sqlite.Database("plants.sqlite");
 
 async function initializeDB() {
-  console.log("InitializeDB is WIP");
-
   await dbRun("DROP TABLE IF EXISTS plants");
   await dbRun(
     "CREATE TABLE plants (id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING, perennial BOOLEAN, category STRING, price INTEGER)"

@@ -14,14 +14,14 @@ router.get("/", async (req, res) => {
 });
 router.post("/", async (req, res) => {
   try {
-    const { name, isPerenial, category, price } = req.body;
-    if (!name || !isPerenial || !category || !price) {
+    const { name, perennial, category, price } = req.body;
+    if (!name || !`${perennial}` || !category || !price) {
       return res.status(400).json({ message: "Missing Data!" });
     }
-
-    const data = dbRun(
+    console.log(name, perennial, category, price);
+    const data = await dbRun(
       "INSERT INTO plants (name, perennial, category, price) VALUES (?,?,?,?)",
-      [name, isPerenial, category, price]
+      [name, perennial, category, price]
     );
 
     return res.status(201).json({ message: "Plant Successfully Added" });
@@ -32,19 +32,19 @@ router.post("/", async (req, res) => {
 });
 router.put("/:id", async (req, res) => {
   try {
+    const { name, perennial, category, price } = req.body;
+    if (!name || !`${perennial}` || !category || !price) {
+      return res.status(400).json({ message: "Missing Data!" });
+    }
+
     const foundById = dbGet("SELECT * FROM plants WHERE id=?", [req.params.id]);
     if (!foundById) {
       return res.status(404).json({ message: "Plant not found!" });
     }
 
-    const { name, isPerenial, category, price } = req.body;
-    if (!name || !isPerenial || !category || !price) {
-      return res.status(400).json({ message: "Missing Data!" });
-    }
-
-    dbRun(
+    const run = await dbRun(
       "UPDATE plants SET name=?, perennial=?, category=?, price=? WHERE id=?",
-      [name, isPerenial, category, price, foundById.id]
+      [name, perennial, category, price, req.params.id]
     );
     return res.status(201).json({ message: "Plant Successfully Altered" });
   } catch (error) {
@@ -59,7 +59,7 @@ router.delete("/:id", async (req, res) => {
       return res.status(404).json({ message: "Plant not found!" });
     }
 
-    dbRun("DELETE FROM plant WHERE id=?", [req.params.id]);
+    const run = await dbRun("DELETE FROM plant WHERE id=?", [req.params.id]);
 
     return res.status(201).json({ message: "Plant Successfully Deleted" });
   } catch (error) {
