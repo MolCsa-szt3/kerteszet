@@ -7,7 +7,7 @@ async function initializeDB() {
 
   await dbRun("DROP TABLE IF EXISTS plants");
   await dbRun(
-    "CREATE TABLE plants (name STRING, perennial BOOLEAN, category STRING, price INTEGER)"
+    "CREATE TABLE plants (id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING, perennial BOOLEAN, category STRING, price INTEGER)"
   );
   await dbRun(
     'INSERT INTO plants (name, perennial, category, price) VALUES ("Hóvirág", TRUE, "virág", 530)'
