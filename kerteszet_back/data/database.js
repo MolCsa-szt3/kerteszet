@@ -5,11 +5,23 @@ const db = new sqlite.Database("plants.sqlite");
 async function initializeDB() {
   console.log("InitializeDB is WIP");
 
-  dbRun("DROP TABLE IF EXISTS plants");
-  dbRun(
-    "CREATE TABLE IF NOT EXISTS plants (name STRING, perennial BOOLEAN, category STRING, price INTEGER)"
+  await dbRun("DROP TABLE IF EXISTS plants");
+  await dbRun(
+    "CREATE TABLE plants (name STRING, perennial BOOLEAN, category STRING, price INTEGER)"
   );
-
+  await dbRun(
+    'INSERT INTO plants (name, perennial, category, price) VALUES ("Hóvirág", TRUE, "virág", 530)'
+  );
+  await dbRun(
+    'INSERT INTO plants (name, perennial, category, price) VALUES ("Barackfa", TRUE, "fa", 1530)'
+  );
+  await dbRun(
+    'INSERT INTO plants (name, perennial, category, price) VALUES ("Muskátli", FALSE, "virág", 420)'
+  );
+  await dbRun(
+    'INSERT INTO plants (name, perennial, category, price) VALUES ("Borostyán", TRUE, "bokor", 690)'
+  );
+  //thanks Prettier for making these look stupid
   return;
 }
 
@@ -37,4 +49,4 @@ async function dbAll(sql, params = []) {
     });
   });
 }
-export { initializeDB };
+export { initializeDB, dbAll, dbGet, dbRun };
